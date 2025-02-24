@@ -27,8 +27,8 @@ This Python script retrieves data from an EmonPi server and displays it on a Wav
 1.  **Clone the Repository (or copy the script):**
     ```bash
     # If using git
-    git clone <repository_url>
-    cd <repository_directory>
+    git clone https://github.com/nkhearn/DisplayPower.git
+    cd DisplayPower
     
     # or just copy the python script to your raspberry pi
     ```
