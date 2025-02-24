@@ -62,13 +62,6 @@ This Python script retrieves data from an EmonPi server and displays it on a Wav
 * The script uses the `waveshare_epd` library to interact with the e-Paper display.
 * Error handling is implemented for network issues and keyboard interrupts.
 
-## File Structure
-```
-<repository_directory>/
-├── <script_name>.py    # Main Python script
-├── notfound.py          # Script executed on error
-├── /home/pi/emonpi      # File containing the EmonPi IP address
-```
 ## Notes
 
 * Ensure the EmonPi server is running and accessible from the Raspberry Pi.
