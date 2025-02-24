@@ -21,6 +21,7 @@ This Python script retrieves data from an EmonPi server and displays it on a Wav
 * `requests` library (`pip install requests`)
 * `waveshare_epd` library (install as described in the waveshare documentation)
 * DejaVuSans-Bold font (usually installed on linux systems)
+* nmap for emonip.sh
 
 ## Installation
 
@@ -41,19 +42,14 @@ This Python script retrieves data from an EmonPi server and displays it on a Wav
     ```
 3.  **Configure EmonPi IP Address:**
     * Create a file named `emonpi` in the `/home/pi/` directory.
-    * Add the EmonPi server's IP address to this file. (e.g., `192.168.1.10`)
+    * Add the EmonPi server's IP address to this file. (e.g., `192.168.1.100`)
     * Ensure there are no trailing whitespace characters.
 4.  **`notfound.py` script:**
-    * Create a `notfound.py` script in the same directory as the main script.
     * This script will be executed if the EmonPi IP address is invalid or the server is unreachable.
-    * Example `notfound.py` (simple error message):
-        ```python
-        print("EmonPi not found or IP invalid.")
-        ```
-5.  **Run the Script:**
-    ```bash
-    python3 <script_name>.py
-    ```
+    *  `notfound.py` executes emonip.sh
+  
+5.  **`emonip.sh` script:**
+    * This script runs nmap to find the server called emonpi and outputs it's IP address.
 
 ## Script Description
 
