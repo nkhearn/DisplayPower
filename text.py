@@ -60,7 +60,7 @@ logging.basicConfig(level=logging.DEBUG)
 
 try:
     
-    r = requests.get('http://' + emonip[:-1] + '/feed/fetch.json?ids=32,9,18,19&apikey=' + apikey)
+    r = requests.get('http://' + emonip[:-1] + '/feed/fetch.json?ids=32,9,18,19,44&apikey=' + apikey)
     dict = r.json()
     
     if r.status_code != 200:
@@ -79,6 +79,11 @@ try:
         ac = True
     else:
         ac = False
+    
+    if int(dict[4]) > 1:
+        soli = True
+    else:
+        soli = False
     
     print(bal)
     logging.info("epd1in54 Demo")
@@ -119,7 +124,11 @@ try:
     if sol:
         draw.text((133,65), u"\u263c", font = fontsol, fill=0)
     else:
-        draw.text((129,55), u"\u2601", font = fontsol, fill=0)
+        if soli:
+            draw.text((125,65), u"\u263c", font = fontsol, fill=0)
+            draw.text((129,65), u"\u2601", font = fontsol, fill=0)
+        else:
+            draw.text((129,55), u"\u2601", font = fontsol, fill=0)
     # AC
     if ac:
         draw.text((100,65), u"\u26a1", font = fontsol, fill=0)
