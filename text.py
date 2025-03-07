@@ -41,7 +41,8 @@ else:
   subprocess.run(["python", "notfound.py"])
   exit()
 
-
+# define emoncms api key
+apikey =""
 t = datetime.now().strftime('%H:%M')
 bal = "0"
 volt = "0"
@@ -59,19 +60,25 @@ logging.basicConfig(level=logging.DEBUG)
 
 try:
     
-    r = requests.get('http://' + emonip[:-1] + '/feed/fetch.json?ids=32,9')
+    r = requests.get('http://' + emonip[:-1] + '/feed/fetch.json?ids=32,9,18,19&apikey=' + apikey)
     dict = r.json()
     
     if r.status_code != 200:
         #import notfound
         subprocess.run(["python", "notfound.py"])
         exit()
-        
-    if bal == 0:
-        bal = str("  + ")
-    else:
-        bal = str(round(dict[0],1))
+    
+    bal = str(round(dict[0],1))
     volt = str(round(dict[1],1))
+    if int(dict[2]) == 1:
+        sol = True
+    else:
+        sol = False
+    
+    if int(dict[3]) == 1:
+        ac = True
+    else:
+        ac = False
     
     print(bal)
     logging.info("epd1in54 Demo")
@@ -92,12 +99,14 @@ try:
     fontm = ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf', 50)
     # Face font
     font2 = ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf', 75)
+    # Sol font
+    fontsol = ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf', 65)
     #Time font
     fontsmall = ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf', 35)
     # Time
     draw.text((3,15), t, font = fontsmall, fill = 0)
     # Balance
-    draw.text((6, 65), bal, font = fontm, fill = 0)
+    draw.text((10, 65), bal, font = fontm, fill = 0)
     # Volts
     draw.text((16, 120), volt, font = font, fill = 0)
     # Face
@@ -105,6 +114,18 @@ try:
         draw.text((125,1), u"\u2639", font = font2, fill=0)
     else:
         draw.text((125,1), u"\u263a", font = font2, fill=0)
+    
+    # Solar
+    if sol:
+        draw.text((133,65), u"\u263c", font = fontsol, fill=0)
+    else:
+        draw.text((129,55), u"\u2601", font = fontsol, fill=0)
+    # AC
+    if ac:
+        draw.text((100,65), u"\u26a1", font = fontsol, fill=0)
+    else:
+        draw.text((100,65), "", font = fontsol, fill=0)
+    
     epd.display(epd.getbuffer(image.rotate(0)))
     time.sleep(2)
     
@@ -118,4 +139,4 @@ except KeyboardInterrupt:
     logging.info("ctrl + c:")
     epd1in54.epdconfig.module_exit(cleanup=True)
     exit()
-  
+    
